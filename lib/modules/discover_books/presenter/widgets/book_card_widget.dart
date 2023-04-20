@@ -25,22 +25,66 @@ class BookCardWidget extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: Column(
                   children: [
                     Expanded(
-                      child: CachedNetworkImage(
-                        imageUrl: book.smallImage ?? book.image,
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
+                      flex: 14,
+                      child: AspectRatio(
+                        aspectRatio: 0.7,
+                        child: CachedNetworkImage(
+                          imageUrl: book.smallImage ?? book.image,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          fit: BoxFit.cover,
                         ),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
-                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(height: 8),
-                    Text(book.title),
-                    Text(_getAuthores),
+                    const SizedBox(height: 4),
+                    Expanded(
+                      flex: 5,
+                      child: Center(
+                        child: Text(
+                          book.title,
+                          textAlign: TextAlign.center,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                    _getAuthores.isNotEmpty
+                        ? Expanded(
+                            flex: 3,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 4),
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      _getAuthores,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 2,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.color
+                                            ?.withAlpha(150),
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
               ),

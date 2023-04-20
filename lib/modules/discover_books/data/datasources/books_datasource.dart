@@ -21,13 +21,28 @@ class BooksDatasourceImp implements BooksDatasource {
         _localStorage = localStorage;
 
   @override
-  Future<Result<List<BookModel>>> searchBooks(String query) async {
+  Future<Result<List<BookModel>>> searchBooks(
+    String query, [
+    int pageNumber = 1,
+  ]) async {
     final queryFormatted = _getListOfWords(query).join('+');
+    // TODO: Implement pagination
+    final int startIndex = _getStartIndex(pageNumber);
+    // log('pageNumber: $pageNumber');
+    // log('startNumber: $startIndex');
+
     try {
-      final response = await _httpClient.get('${ApiRoutes.searchBooks}$queryFormatted');
+      final response = await _httpClient
+          .get('${ApiRoutes.searchBooks}$queryFormatted&maxResults=40&startIndex=$startIndex');
       final books =
           (response.data['items'] as List).map((book) => BookModel.fromJson(book)).toList();
-      return Result.success(books);
+
+      final favouriteResponse = await getFavourites();
+      final favouriteBooks = favouriteResponse.isSuccess ? favouriteResponse.data : [];
+
+      final booksResult = _markFavouriteBooks(books, favouriteBooks);
+
+      return Result.success(booksResult);
     } on Failure catch (e) {
       return Result.failure(e);
     } catch (e) {
@@ -136,5 +151,21 @@ class BooksDatasourceImp implements BooksDatasource {
 
   List<String> _getListOfWords(String query) {
     return query.trim().split(' ');
+  }
+
+  List<BookModel> _markFavouriteBooks(List<BookModel> books, List favouriteBooks) {
+    final booksResult = books.map((book) {
+      final bookExists = favouriteBooks.any((element) => element.id == book.id);
+      if (bookExists) {
+        return book..isFavourite = true;
+      } else {
+        return book;
+      }
+    }).toList();
+    return booksResult;
+  }
+
+  int _getStartIndex(int pageNumber) {
+    return pageNumber == 1 ? 0 : (pageNumber - 1) * 40;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/book_card_widget.dart';
 
-class GridBooksComponent extends StatelessWidget {
+class GridBooksComponent extends StatefulWidget {
   final List<BookEntity> books;
   final void Function(BookEntity book) toggleFavourite;
   final void Function(BookEntity book) onTap;
@@ -15,19 +15,26 @@ class GridBooksComponent extends StatelessWidget {
   });
 
   @override
+  State<GridBooksComponent> createState() => _GridBooksComponentState();
+}
+
+class _GridBooksComponentState extends State<GridBooksComponent> {
+  bool get isPortrait => MediaQuery.of(context).orientation == Orientation.portrait;
+
+  @override
   Widget build(BuildContext context) {
     return GridView.count(
-      crossAxisCount: 2,
+      crossAxisCount: isPortrait ? 2 : 3,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
       padding: const EdgeInsets.all(16),
       childAspectRatio: 0.75,
       children: List.generate(
-        books.length,
+        widget.books.length,
         (index) => BookCardWidget(
-          book: books[index],
-          toggleFavourite: toggleFavourite,
-          onTap: onTap,
+          book: widget.books[index],
+          toggleFavourite: widget.toggleFavourite,
+          onTap: widget.onTap,
         ),
       ),
     );
