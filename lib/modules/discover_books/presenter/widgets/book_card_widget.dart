@@ -1,13 +1,16 @@
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class BookCardWidget extends StatelessWidget {
   final BookEntity book;
   final void Function(BookEntity) toggleFavourite;
+  final void Function(BookEntity) onTap;
   const BookCardWidget({
     super.key,
     required this.book,
     required this.toggleFavourite,
+    required this.onTap,
   });
 
   String get _getAuthores => book.authors.join(', ');
@@ -16,7 +19,7 @@ class BookCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Ink(
       child: InkWell(
-        onTap: () => toggleFavourite(book),
+        onTap: () => onTap(book),
         child: Card(
           child: Stack(
             alignment: Alignment.center,
@@ -26,8 +29,12 @@ class BookCardWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Expanded(
-                      child: Image.network(
-                        book.image,
+                      child: CachedNetworkImage(
+                        imageUrl: book.smallImage ?? book.image,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
                         fit: BoxFit.cover,
                       ),
                     ),

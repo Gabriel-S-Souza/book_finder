@@ -27,7 +27,12 @@ class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget 
             child: TextFieldWidget(
               hint: 'Search',
               controller: _controller,
-              onSubmitted: onSearch,
+              onSubmitted: (value) {
+                FocusScope.of(context).unfocus();
+                if (value.isNotEmpty) {
+                  onSearch?.call(value);
+                }
+              },
               prefix: const Icon(Icons.search),
             ),
           ),
@@ -35,6 +40,7 @@ class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget 
             icon: const Icon(Icons.search),
             onPressed: () {
               if (_controller.text.isNotEmpty) {
+                FocusScope.of(context).unfocus();
                 onSearch?.call(_controller.text);
               }
             },

@@ -6,10 +6,12 @@ import '../widgets/book_card_widget.dart';
 class GridBooksComponent extends StatelessWidget {
   final List<BookEntity> books;
   final void Function(BookEntity book) toggleFavourite;
+  final void Function(BookEntity book) onTap;
   const GridBooksComponent({
     super.key,
     required this.books,
     required this.toggleFavourite,
+    required this.onTap,
   });
 
   @override
@@ -25,6 +27,7 @@ class GridBooksComponent extends StatelessWidget {
         (index) => BookCardWidget(
           book: books[index],
           toggleFavourite: toggleFavourite,
+          onTap: onTap,
         ),
       ),
     );

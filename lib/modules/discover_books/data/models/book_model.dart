@@ -8,12 +8,12 @@ class BookModel extends BookEntity {
     required String title,
     required String? subtitle,
     required List<String> authors,
-    required String publisher,
-    required String publishedDate,
-    required String description,
-    required int pageCount,
+    String? publisher,
+    String? publishedDate,
+    String? description,
+    int? pageCount,
     required List<String> categories,
-    required String smallImage,
+    String? smallImage,
     required String image,
     required String language,
     required String previewLink,
@@ -55,15 +55,16 @@ class BookModel extends BookEntity {
       publishedDate: json['volumeInfo']['publishedDate'],
       description: json['volumeInfo']['description'],
       pageCount: json['volumeInfo']['pageCount'],
-      categories: List<String>.from(json['volumeInfo']['categories']),
-      smallImage: json['volumeInfo']['imageLinks']['smallThumbnail'],
-      image: json['volumeInfo']['imageLinks']['thumbnail'],
+      categories: List<String>.from(json['volumeInfo']['categories'] ?? []),
+      smallImage: json['volumeInfo']['imageLinks']?['smallThumbnail'],
+      image: json['volumeInfo']['imageLinks']?['thumbnail'] ??
+          'https://img.freepik.com/free-vector/red-exclamation-mark-symbol-attention-caution-sign-icon-alert-danger-problem_40876-3505.jpg?w=2000',
       language: json['volumeInfo']['language'],
       previewLink: json['volumeInfo']['previewLink'],
       infoLink: json['volumeInfo']['infoLink'],
       forSale: json['saleInfo']['saleability'] == 'FOR_SALE',
       price: json['saleInfo']['saleability'] == 'FOR_SALE'
-          ? json['saleInfo']['listPrice']['amount']
+          ? json['saleInfo']['listPrice']['amount'].toDouble()
           : null,
       currencyCode: json['saleInfo']['saleability'] == 'FOR_SALE'
           ? currencyCodeFormatter(json['saleInfo']['listPrice']['currencyCode'])

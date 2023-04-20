@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:book_finder/modules/discover_books/data/mocks/books_response_mock.dart';
 import 'package:dio/dio.dart';
 
@@ -6,27 +8,32 @@ import '../commom/domain/failure.dart';
 class HttpClient {
   final Dio _dio;
 
-  HttpClient(this._dio);
+  HttpClient(this._dio) {
+    _addInterceptor();
+  }
 
-  Future<Response> get(String url) async {
-    // try {
-    //   final response = await _dio.get(url);
-    //   return response;
-    // } catch (e) {
-    //   throw _handleError(e);
-    // }
-
-    //TODO: Remove mock
-
-    // success
-    return Response(
-      requestOptions: RequestOptions(path: url),
-      data: booksResponseMock,
-      statusCode: 200,
-    );
-
-    // error
-    // throw ServerFailure();
+  Future<Response> get(String url, [bool mockSearch = false, bool mockFavourites = false]) async {
+    // TODO: remove this mock
+    if (mockSearch) {
+      return Response(
+        requestOptions: RequestOptions(path: url),
+        data: booksResponseMock,
+        statusCode: 200,
+      );
+    }
+    if (mockFavourites) {
+      return Response(
+        requestOptions: RequestOptions(path: url),
+        data: mockFavourites,
+        statusCode: 200,
+      );
+    }
+    try {
+      final response = await _dio.get(url);
+      return response;
+    } catch (e) {
+      throw _handleError(e);
+    }
   }
 
   Failure _handleError(Object e) {
@@ -40,5 +47,13 @@ class HttpClient {
       }
     }
     return NotFoundFailure(e.toString());
+  }
+
+  void _addInterceptor() {
+    _dio.interceptors.add(LogInterceptor(
+      requestBody: true,
+      responseBody: true,
+      logPrint: (object) => log(object.toString(), name: 'HTTP'),
+    ));
   }
 }

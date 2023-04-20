@@ -53,11 +53,11 @@ class BooksDatasourceImp implements BooksDatasource {
     try {
       final booksJson = _localStorage.getList(StorageKeys.favouriteBooks);
       if (booksJson != null) {
-        final books = booksJson.map((book) => BookModel.fromJson(jsonDecode(book))).toList();
+        final books = booksJson.map((book) => BookModel.fromLocalJson(jsonDecode(book))).toList();
         final filteredBooks = books.where((book) {
           final title = book.title.toLowerCase();
           final subtitle = book.subtitle?.toLowerCase() ?? '';
-          final description = book.description.toLowerCase();
+          final description = book.description?.toLowerCase() ?? '';
           final queryFormatted = query.join(' ').toLowerCase();
           final categories = book.categories.join(' ').toLowerCase();
           return title.contains(queryFormatted) ||

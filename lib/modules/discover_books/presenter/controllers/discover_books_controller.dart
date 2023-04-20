@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:book_finder/core/commom/domain/result.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/search_books_use_case.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../../domain/usecases/favourite_book_usecase.dart';
 import '../../domain/usecases/get_favourites_use_case.dart';
@@ -33,9 +36,11 @@ class DiscoverBooksController extends ChangeNotifier {
 
   List<BookEntity> get books => _books;
 
+  List<BookEntity> get booksToShow => _tabIsFavourites ? _favouriteBooks : _books;
+
   bool _tabIsFavourites = false;
 
-  List<BookEntity> get favouriteBiiks => _favouriteBooks;
+  List<BookEntity> get favouriteBooks => _favouriteBooks;
 
   bool get tabIsFavourites => _tabIsFavourites;
 
@@ -59,7 +64,6 @@ class DiscoverBooksController extends ChangeNotifier {
         result = Result.failure(error);
       },
     );
-
     _tabIsFavourites = false;
 
     setLoading(false);
@@ -82,7 +86,7 @@ class DiscoverBooksController extends ChangeNotifier {
       },
     );
 
-    _tabIsFavourites = false;
+    _tabIsFavourites = true;
 
     setLoading(false);
     return result;
@@ -94,17 +98,25 @@ class DiscoverBooksController extends ChangeNotifier {
 
   void setTabIsFavourites(bool value) {
     _tabIsFavourites = value;
+    if (_tabIsFavourites) {
+      getFavourites();
+    }
     notifyListeners();
   }
 
   Future<void> toggleFavouriteBook(BookEntity book) async {
     book.isFavourite = !book.isFavourite;
-    final index = _books.indexWhere((element) => element.id == book.id);
-    _books[index] = book;
-    print(book.isFavourite);
     if (book.isFavourite) {
+      _favouriteBooks.add(book);
       await _saveFavoriteBookUseCase(book);
     } else {
+      final index = _favouriteBooks.indexWhere((element) => element.id == book.id);
+      _favouriteBooks.removeAt(index);
+      try {
+        _books.firstWhere((element) => element.id == book.id).isFavourite = false;
+      } on StateError catch (e) {
+        debugPrint(e.toString());
+      }
       await _removeFromFavouritesUseCase(book);
     }
     notifyListeners();

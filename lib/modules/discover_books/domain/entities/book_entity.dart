@@ -3,12 +3,12 @@ class BookEntity {
   final String title;
   final String? subtitle;
   final List<String> authors;
-  final String publisher;
-  final String publishedDate;
-  final String description;
-  final int pageCount;
+  String? publisher;
+  String? publishedDate;
+  String? description;
+  int? pageCount;
   final List<String> categories;
-  final String smallImage;
+  String? smallImage;
   final String image;
   final String language;
   final String previewLink;
@@ -24,12 +24,12 @@ class BookEntity {
     required this.title,
     this.subtitle,
     required this.authors,
-    required this.publisher,
-    required this.publishedDate,
-    required this.description,
-    required this.pageCount,
+    this.publisher,
+    this.publishedDate,
+    this.description,
+    this.pageCount,
     required this.categories,
-    required this.smallImage,
+    this.smallImage,
     required this.image,
     required this.language,
     required this.previewLink,
