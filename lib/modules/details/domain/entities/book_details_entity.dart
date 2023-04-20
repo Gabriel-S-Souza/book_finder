@@ -3,11 +3,12 @@ class BookDetailsEntity {
   final String title;
   final String? subtitle;
   final List<String> authors;
-  final String publisher;
-  final String publishedDate;
-  final String description;
-  final int pageCount;
+  String? publisher;
+  String? publishedDate;
+  String? description;
+  int? pageCount;
   final List<String> categories;
+  String? smallImage;
   final String image;
   final String language;
   final String previewLink;
@@ -16,19 +17,19 @@ class BookDetailsEntity {
   final double? price;
   final String? currencyCode;
   final String? buyLink;
-  final String? smallImage;
-  bool isFavorite;
+  bool isFavourite;
 
   BookDetailsEntity({
     required this.id,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.authors,
-    required this.publisher,
-    required this.publishedDate,
-    required this.description,
-    required this.pageCount,
+    this.publisher,
+    this.publishedDate,
+    this.description,
+    this.pageCount,
     required this.categories,
+    this.smallImage,
     required this.image,
     required this.language,
     required this.previewLink,
@@ -37,11 +38,6 @@ class BookDetailsEntity {
     this.price,
     this.currencyCode,
     this.buyLink,
-    this.smallImage,
-    this.isFavorite = false,
+    this.isFavourite = false,
   });
-
-  void toggleFavorite() {
-    isFavorite = !isFavorite;
-  }
 }

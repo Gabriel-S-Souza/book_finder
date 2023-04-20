@@ -1,6 +1,6 @@
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:book_finder/modules/discover_books/domain/repositories/book_repository.dart';
-import 'package:book_finder/modules/discover_books/domain/services/connectivity_service.dart';
+import 'package:book_finder/core/commom/domain/services/connectivity_service.dart';
 
 import '../../../../core/commom/domain/result.dart';
 

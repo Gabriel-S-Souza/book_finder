@@ -1,8 +1,9 @@
 import 'package:book_finder/core/http/dio_config.dart';
 import 'package:book_finder/modules/details/domain/usecases/get_details_use_case.dart';
 import 'package:book_finder/modules/details/infra/datasources/book_details_datasource.dart';
-import 'package:book_finder/modules/discover_books/domain/services/connectivity_service.dart';
-import 'package:book_finder/modules/discover_books/domain/usecases/favourite_book_usecase.dart';
+import 'package:book_finder/modules/details/presentater/controllers/book_details_controller.dart';
+import 'package:book_finder/core/commom/domain/services/connectivity_service.dart';
+import 'package:book_finder/modules/discover_books/domain/usecases/save_favourite_usecase.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/get_favourites_use_case.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/search_books_use_case.dart';
 import 'package:book_finder/modules/discover_books/presenter/controllers/discover_books_controller.dart';
@@ -12,12 +13,14 @@ import '../../modules/details/domain/repositories/book_details_repository.dart';
 import '../../modules/details/infra/repositories/book_details_repository.dart';
 import '../../modules/discover_books/data/datasources/books_datasource.dart';
 import '../../modules/discover_books/domain/repositories/book_repository.dart';
-import '../../modules/discover_books/domain/usecases/remove_from_favourites_usecase.dart';
+import '../../modules/discover_books/domain/usecases/remove_favourite_usecase.dart';
+import '../../modules/details/domain/usecases/remove_favourite_from_details_usecase.dart';
+import '../../modules/details/domain/usecases/save_favourite_usecase.dart';
 import '../../modules/discover_books/infra/datasources/books_datasource.dart';
 import '../../modules/discover_books/infra/repositories/books_repository.dart';
-import '../../modules/discover_books/infra/services/connectivity_service.dart';
 import '../commom/data/local_storage.dart';
-import '../commom/infra/local_storage.dart';
+import '../commom/infra/datasources/local_storage.dart';
+import '../commom/infra/services/connectivity_service.dart';
 import '../http/http_client.dart';
 import 'service_locator.dart';
 
@@ -40,7 +43,10 @@ class ServiceLocatorImp implements ServiceLocator {
           localStorage: _getIt(),
         ));
 
-    _getIt.registerFactory<BookDetailsDatasource>(() => BookDetailsDatasourceImp(_getIt()));
+    _getIt.registerFactory<BookDetailsDatasource>(() => BookDetailsDatasourceImp(
+          httpClient: _getIt(),
+          localStorage: _getIt(),
+        ));
 
     // services
     _getIt.registerFactory<ConnectivityService>(() => ConnectivityServiceImp());
@@ -57,8 +63,6 @@ class ServiceLocatorImp implements ServiceLocator {
           connectivityService: _getIt(),
         ));
 
-    _getIt.registerFactory<GetDetailsUseCase>(() => GetDetailsUseCaseImp(repository: _getIt()));
-
     _getIt.registerFactory<SaveFavoriteBookUseCase>(
         () => SaveFavoriteBookUseCaseImp(repository: _getIt()));
 
@@ -68,12 +72,34 @@ class ServiceLocatorImp implements ServiceLocator {
     _getIt
         .registerFactory<GetFavouritesUseCase>(() => GetFavouritesUseCaseImp(repository: _getIt()));
 
-    _getIt.registerSingleton<DiscoverBooksController>(DiscoverBooksController(
-      searchBooksUseCase: _getIt(),
-      getFavouritesUseCase: _getIt(),
-      saveFavoriteBookUseCase: _getIt(),
-      removeFromFavouritesUseCase: _getIt(),
-    ));
+    _getIt.registerFactory<GetDetailsUseCase>(() => GetDetailsUseCaseImp(
+          repository: _getIt(),
+          connectivityService: _getIt(),
+        ));
+
+    _getIt.registerFactory<SaveFavoriteFromDetailsUseCase>(
+        () => SaveFavoriteFromDetailsUseCaseImp(repository: _getIt()));
+
+    _getIt.registerFactory<RemoveFavouriteFromDetailsUseCase>(
+        () => RemoveFavouriteFromDetailsUseCaseImp(repository: _getIt()));
+
+    // controllers
+    _getIt.registerSingleton<DiscoverBooksController>(
+      DiscoverBooksController(
+        searchBooksUseCase: _getIt(),
+        getFavouritesUseCase: _getIt(),
+        saveFavoriteBookUseCase: _getIt(),
+        removeFromFavouritesUseCase: _getIt(),
+      ),
+    );
+
+    _getIt.registerSingleton<BookDetailsController>(
+      BookDetailsController(
+        getDetailsUseCase: _getIt(),
+        saveFavoriteBookUseCase: _getIt(),
+        removeFromFavouritesUseCase: _getIt(),
+      ),
+    );
   }
 
   @override

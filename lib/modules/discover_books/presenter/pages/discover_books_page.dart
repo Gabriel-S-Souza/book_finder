@@ -1,4 +1,5 @@
 import 'package:book_finder/core/di/service_locator_imp.dart';
+import 'package:book_finder/modules/details/presentater/pages/book_details_page.dart';
 import 'package:book_finder/modules/discover_books/presenter/components/grid_books_component.dart';
 import 'package:book_finder/modules/discover_books/presenter/controllers/discover_books_controller.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,12 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
                           books: _controller.booksToShow,
                           toggleFavourite: _controller.toggleFavouriteBook,
                           onTap: (book) {
-                            debugPrint(book.title);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookDetailsPage(bookEntity: book),
+                              ),
+                            );
                           },
                         );
                       },

@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import '../infra/local_storage.dart';
+import '../infra/datasources/local_storage.dart';
 
 class LocalStorageImp implements LocalStorage {
   late final SharedPreferences _prefs;

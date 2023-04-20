@@ -1,14 +1,12 @@
-import 'dart:developer';
-
 import 'package:book_finder/core/commom/domain/result.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/search_books_use_case.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/usecases/favourite_book_usecase.dart';
+import '../../domain/usecases/save_favourite_usecase.dart';
 import '../../domain/usecases/get_favourites_use_case.dart';
-import '../../domain/usecases/remove_from_favourites_usecase.dart';
+import '../../domain/usecases/remove_favourite_usecase.dart';
 
 class DiscoverBooksController extends ChangeNotifier {
   final SearchBooksUseCase _searchBooksUseCase;

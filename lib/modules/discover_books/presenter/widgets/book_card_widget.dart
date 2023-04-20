@@ -33,11 +33,14 @@ class BookCardWidget extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: 0.7,
                         child: CachedNetworkImage(
-                          imageUrl: book.smallImage ?? book.image,
+                          imageUrl: book.image,
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          errorWidget: (context, url, error) => const Icon(
+                            Icons.error,
+                            size: 56,
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),

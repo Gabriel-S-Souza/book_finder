@@ -1,6 +1,7 @@
 import 'package:book_finder/modules/details/data/models/book_details_model.dart';
 
 import 'package:book_finder/core/commom/domain/result.dart';
+import 'package:book_finder/modules/details/domain/entities/book_details_entity.dart';
 
 import '../../domain/repositories/book_details_repository.dart';
 import '../datasources/book_details_datasource.dart';
@@ -15,4 +16,10 @@ class BookDetailsRepositoryImp implements BookDetailsRepository {
   @override
   Future<Result<BookDetailsModel>> getBookDetails(String bookId) =>
       _datasource.getBookDetails(bookId);
+
+  @override
+  Future<Result<bool>> removeFavourite(String bookId) => _datasource.removeFavourite(bookId);
+
+  @override
+  Future<Result<bool>> saveFavourite(BookDetailsEntity book) => _datasource.saveFavourite(book);
 }

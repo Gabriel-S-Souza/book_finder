@@ -37,7 +37,7 @@ class HttpClient {
   Failure _handleError(Object e) {
     if (e is DioError) {
       if (e.type == DioErrorType.connectionTimeout) {
-        return ConnectTimeoutFailure();
+        return OfflineFailure();
       } else if (e.type == DioErrorType.cancel ||
           e.type == DioErrorType.receiveTimeout ||
           e.type == DioErrorType.badResponse) {
