@@ -24,9 +24,9 @@ class BooksRepositoryImp implements BooksRepository {
   Future<Result<bool>> saveFavourite(BookEntity book) => _datasource.saveFavourite(book);
 
   @override
-  Future<Result<List<BookModel>>> searchBooks(List<String> query) => _datasource.searchBooks(query);
+  Future<Result<List<BookModel>>> searchBooks(String query) => _datasource.searchBooks(query);
 
   @override
-  Future<Result<List<BookModel>>> searchBooksLocally(List<String> query) =>
+  Future<Result<List<BookModel>>> searchBooksLocally(String query) =>
       _datasource.searchBooksLocally(query);
 }

@@ -5,7 +5,7 @@ import 'package:book_finder/modules/discover_books/domain/services/connectivity_
 import '../../../../core/commom/domain/result.dart';
 
 abstract class SearchBooksUseCase {
-  Future<Result<List<BookEntity>>> call(List<String> query);
+  Future<Result<List<BookEntity>>> call(String query);
 }
 
 class SearchBooksUseCaseImp implements SearchBooksUseCase {
@@ -19,7 +19,7 @@ class SearchBooksUseCaseImp implements SearchBooksUseCase {
         _connectivityService = connectivityService;
 
   @override
-  Future<Result<List<BookEntity>>> call(List<String> query) async {
+  Future<Result<List<BookEntity>>> call(String query) async {
     final hasConnection = await _connectivityService.hasConnection;
     if (hasConnection) {
       return _repository.searchBooks(query);

@@ -21,8 +21,8 @@ class BooksDatasourceImp implements BooksDatasource {
         _localStorage = localStorage;
 
   @override
-  Future<Result<List<BookModel>>> searchBooks(List<String> query) async {
-    final queryFormatted = query.join('+');
+  Future<Result<List<BookModel>>> searchBooks(String query) async {
+    final queryFormatted = _getListOfWords(query).join('+');
     try {
       final response = await _httpClient.get('${ApiRoutes.searchBooks}$queryFormatted');
       final books =
@@ -49,22 +49,22 @@ class BooksDatasourceImp implements BooksDatasource {
   }
 
   @override
-  Future<Result<List<BookModel>>> searchBooksLocally(List<String> query) async {
+  Future<Result<List<BookModel>>> searchBooksLocally(String query) async {
     try {
       final booksJson = _localStorage.getList(StorageKeys.favouriteBooks);
       if (booksJson != null) {
         final books = booksJson.map((book) => BookModel.fromLocalJson(jsonDecode(book))).toList();
-        final filteredBooks = books.where((book) {
-          final title = book.title.toLowerCase();
-          final subtitle = book.subtitle?.toLowerCase() ?? '';
-          final description = book.description?.toLowerCase() ?? '';
-          final queryFormatted = query.join(' ').toLowerCase();
-          final categories = book.categories.join(' ').toLowerCase();
-          return title.contains(queryFormatted) ||
-              subtitle.contains(queryFormatted) ||
-              description.contains(queryFormatted) ||
-              categories.contains(queryFormatted);
-        }).toList();
+
+        final searchQuery = query.toLowerCase();
+
+        final filteredBooks = books
+            .where((book) => book.title.toLowerCase().contains(searchQuery) ||
+                    book.description != null
+                ? book.description!.toLowerCase().contains(searchQuery)
+                : false ||
+                    book.authors.any((author) => author.toLowerCase().contains(searchQuery)) ||
+                    book.categories.any((category) => category.toLowerCase().contains(searchQuery)))
+            .toList();
 
         return Result.success(filteredBooks);
       } else {
@@ -132,5 +132,9 @@ class BooksDatasourceImp implements BooksDatasource {
     } catch (e) {
       return Result.failure(Failure('Error removing from favourites'));
     }
+  }
+
+  List<String> _getListOfWords(String query) {
+    return query.trim().split(' ');
   }
 }

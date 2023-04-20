@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:book_finder/modules/discover_books/data/mocks/books_response_mock.dart';
 import 'package:dio/dio.dart';
 
@@ -53,7 +51,6 @@ class HttpClient {
     _dio.interceptors.add(LogInterceptor(
       requestBody: true,
       responseBody: true,
-      logPrint: (object) => log(object.toString(), name: 'HTTP'),
     ));
   }
 }

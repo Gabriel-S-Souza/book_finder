@@ -51,7 +51,7 @@ class DiscoverBooksController extends ChangeNotifier {
 
   Future<Result<bool>> searchBooks(String query) async {
     setLoading(true);
-    final response = await _searchBooksUseCase(_getListOfWords(query));
+    final response = await _searchBooksUseCase(query);
     late final Result<bool> result;
 
     response.when(
@@ -90,10 +90,6 @@ class DiscoverBooksController extends ChangeNotifier {
 
     setLoading(false);
     return result;
-  }
-
-  List<String> _getListOfWords(String query) {
-    return query.trim().split(' ');
   }
 
   void setTabIsFavourites(bool value) {
