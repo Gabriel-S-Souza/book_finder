@@ -1,6 +1,5 @@
-import 'package:book_finder/modules/discover_books/infra/datasources/search_books_datasource.dart';
-
 import '../../../../core/commom/domain/result.dart';
+import '../repositories/book_repository.dart';
 
 abstract class RemoveFavouritesUseCase {
   Future<Result<bool>> call(String bookId);
@@ -8,15 +7,15 @@ abstract class RemoveFavouritesUseCase {
 }
 
 class RemoveFavouritesUseCaseImp implements RemoveFavouritesUseCase {
-  final BooksDatasource _datasource;
+  final BooksRepository _repository;
 
   RemoveFavouritesUseCaseImp({
-    required BooksDatasource datasource,
-  }) : _datasource = datasource;
+    required BooksRepository repository,
+  }) : _repository = repository;
 
   @override
-  Future<Result<bool>> call(String bookId) => _datasource.removeFavourite(bookId);
+  Future<Result<bool>> call(String bookId) => _repository.removeFavourite(bookId);
 
   @override
-  Future<Result<bool>> removeAll() => _datasource.removeAllFavourites();
+  Future<Result<bool>> removeAll() => _repository.removeAllFavourites();
 }

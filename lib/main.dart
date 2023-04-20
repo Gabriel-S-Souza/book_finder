@@ -8,6 +8,5 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ServiceLocatorImp.I.setupLocator();
   await ServiceLocatorImp.I.get<LocalStorage>().init();
-
   runApp(const AppWidget());
 }

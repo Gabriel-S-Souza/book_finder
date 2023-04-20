@@ -5,7 +5,7 @@ import 'package:book_finder/core/utils/api_routes.dart';
 import 'package:book_finder/core/commom/domain/result.dart';
 import 'package:book_finder/core/utils/storage_keys.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
-import 'package:book_finder/modules/discover_books/infra/datasources/search_books_datasource.dart';
+import 'package:book_finder/modules/discover_books/infra/datasources/books_datasource.dart';
 import '../models/book_model.dart';
 import '../../../../core/commom/domain/failure.dart';
 import '../../../../core/http/http_client.dart';
