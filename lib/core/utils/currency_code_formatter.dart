@@ -1,8 +1,4 @@
-String? currencyCodeFormatter(String? currencyCodeJson) {
-  if (currencyCodeJson == null) {
-    return null;
-  }
-
+String currencyCodeFormatter(String currencyCodeJson) {
   switch (currencyCodeJson) {
     case 'BRL':
       return 'R\$';
@@ -21,6 +17,6 @@ String? currencyCodeFormatter(String? currencyCodeJson) {
     case 'CNY':
       return '¥';
     default:
-      return '\$';
+      return currencyCodeJson;
   }
 }

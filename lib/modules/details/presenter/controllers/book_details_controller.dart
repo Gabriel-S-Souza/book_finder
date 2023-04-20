@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/commom/domain/result.dart';
+import '../../../../core/utils/currency_code_formatter.dart';
 import '../../domain/entities/book_details_entity.dart';
 import '../../domain/usecases/get_details_use_case.dart';
 import '../../domain/usecases/remove_favorite_from_details_usecase.dart';
@@ -30,6 +32,18 @@ class BookDetailsController extends ChangeNotifier {
   BookDetailsEntity? get bookDetails => _bookDetails;
 
   BookDetailsEntity? _bookDetails;
+
+  bool get forSale => isLoading == false && bookDetails?.forSale == true;
+
+  String? get price {
+    if (isLoading == false && bookDetails?.forSale == true) {
+      if (bookDetails?.price == 0) {
+        return 'Free';
+      }
+      return '${currencyCodeFormatter(bookDetails!.currencyCode!)} ${bookDetails?.price?.toStringAsFixed(2)} Buy book';
+    }
+    return null;
+  }
 
   void setBookDetails(BookDetailsEntity book) {
     _bookDetails = book;
@@ -69,5 +83,24 @@ class BookDetailsController extends ChangeNotifier {
     }
     requiresRefreshOnBack = true;
     notifyListeners();
+  }
+
+  Future<void> launchInfoLink() async {
+    if (bookDetails?.previewLink != null) {
+      await _launchUrl(bookDetails!.infoLink);
+    }
+  }
+
+  Future<void> launchBuyLink() async {
+    if (bookDetails?.buyLink != null) {
+      await _launchUrl(bookDetails!.buyLink!);
+    }
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

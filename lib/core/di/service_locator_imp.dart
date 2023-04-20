@@ -1,7 +1,7 @@
 import 'package:book_finder/core/http/dio_config.dart';
 import 'package:book_finder/modules/details/domain/usecases/get_details_use_case.dart';
 import 'package:book_finder/modules/details/infra/datasources/book_details_datasource.dart';
-import 'package:book_finder/modules/details/presentater/controllers/book_details_controller.dart';
+import 'package:book_finder/modules/details/presenter/controllers/book_details_controller.dart';
 import 'package:book_finder/core/commom/domain/services/connectivity_service.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/save_favorite_usecase.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/get_favorites_use_case.dart';

@@ -1,10 +1,12 @@
 import 'package:book_finder/core/di/service_locator_imp.dart';
+import 'package:book_finder/core/utils/currency_code_formatter.dart';
 import 'package:book_finder/modules/details/data/models/book_details_model.dart';
-import 'package:book_finder/modules/details/presentater/controllers/book_details_controller.dart';
 import 'package:book_finder/modules/discover_books/data/models/book_model.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import '../controllers/book_details_controller.dart';
 
 class BookDetailsPage extends StatefulWidget {
   final BookEntity bookEntity;
@@ -137,6 +139,69 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
             },
           ),
         ),
+        persistentFooterButtons: [
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, _) {
+              if (_controller.forSale) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 46,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        _controller.launchBuyLink();
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _controller.price!,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    height: 46,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _controller.launchInfoLink,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'More info',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          if (_controller.forSale)
+                            const Icon(
+                              Icons.preview,
+                              size: 20,
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }
