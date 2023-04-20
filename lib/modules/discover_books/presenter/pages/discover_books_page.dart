@@ -4,6 +4,7 @@ import 'package:book_finder/modules/discover_books/presenter/components/grid_boo
 import 'package:book_finder/modules/discover_books/presenter/controllers/discover_books_controller.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/commom/presenter/widgets/loading_widget.dart';
 import '../components/search_bar_component.dart';
 
 class DiscoverBooksPage extends StatefulWidget {
@@ -55,13 +56,13 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
                     child: Builder(
                       builder: (context) {
                         if (_controller.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                          return const LoadingWidget();
                         }
                         if (_controller.booksToShow.isEmpty) {
                           return const Center(
-                            child: Text('No books found'),
+                            child: Text(
+                              'No books found',
+                            ),
                           );
                         }
 

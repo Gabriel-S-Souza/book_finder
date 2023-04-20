@@ -1,4 +1,3 @@
-import 'package:book_finder/modules/discover_books/data/mocks/books_response_mock.dart';
 import 'package:dio/dio.dart';
 
 import '../commom/domain/failure.dart';
@@ -10,22 +9,7 @@ class HttpClient {
     _addInterceptor();
   }
 
-  Future<Response> get(String url, [bool mockSearch = false, bool mockfavorites = false]) async {
-    // TODO: remove this mock
-    if (mockSearch) {
-      return Response(
-        requestOptions: RequestOptions(path: url),
-        data: booksResponseMock,
-        statusCode: 200,
-      );
-    }
-    if (mockfavorites) {
-      return Response(
-        requestOptions: RequestOptions(path: url),
-        data: mockfavorites,
-        statusCode: 200,
-      );
-    }
+  Future<Response> get(String url) async {
     try {
       final response = await _dio.get(url);
       return response;
