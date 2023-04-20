@@ -42,13 +42,13 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
                   TabBar(
                     controller: _tabController,
                     onTap: (index) {
-                      bool showFavourites = index == 1;
-                      _tabController.animateTo(showFavourites ? 1 : 0);
-                      _controller.setTabIsFavourites(showFavourites);
+                      bool showfavorites = index == 1;
+                      _tabController.animateTo(showfavorites ? 1 : 0);
+                      _controller.setTabIsfavorites(showfavorites);
                     },
                     tabs: const [
                       Tab(text: 'All'),
-                      Tab(text: 'Favourites'),
+                      Tab(text: 'favorites'),
                     ],
                   ),
                   Expanded(
@@ -67,7 +67,7 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
 
                         return GridBooksComponent(
                           books: _controller.booksToShow,
-                          toggleFavourite: _controller.toggleFavouriteBook,
+                          togglefavorite: _controller.togglefavoriteBook,
                           onTap: (book) {
                             Navigator.push(
                               context,

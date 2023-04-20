@@ -4,25 +4,25 @@ import 'package:book_finder/modules/discover_books/domain/usecases/search_books_
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../domain/usecases/save_favourite_usecase.dart';
-import '../../domain/usecases/get_favourites_use_case.dart';
-import '../../domain/usecases/remove_favourite_usecase.dart';
+import '../../domain/usecases/save_favorite_usecase.dart';
+import '../../domain/usecases/get_favorites_use_case.dart';
+import '../../domain/usecases/remove_favorite_usecase.dart';
 
 class DiscoverBooksController extends ChangeNotifier {
   final SearchBooksUseCase _searchBooksUseCase;
-  final GetFavouritesUseCase _getFavouritesUseCase;
+  final GetfavoritesUseCase _getfavoritesUseCase;
   final SaveFavoriteBookUseCase _saveFavoriteBookUseCase;
-  final RemoveFavouritesUseCase _removeFromFavouritesUseCase;
+  final RemovefavoritesUseCase _removeFromfavoritesUseCase;
 
   DiscoverBooksController({
     required SearchBooksUseCase searchBooksUseCase,
-    required GetFavouritesUseCase getFavouritesUseCase,
+    required GetfavoritesUseCase getfavoritesUseCase,
     required SaveFavoriteBookUseCase saveFavoriteBookUseCase,
-    required RemoveFavouritesUseCase removeFromFavouritesUseCase,
+    required RemovefavoritesUseCase removeFromfavoritesUseCase,
   })  : _searchBooksUseCase = searchBooksUseCase,
-        _getFavouritesUseCase = getFavouritesUseCase,
+        _getfavoritesUseCase = getfavoritesUseCase,
         _saveFavoriteBookUseCase = saveFavoriteBookUseCase,
-        _removeFromFavouritesUseCase = removeFromFavouritesUseCase;
+        _removeFromfavoritesUseCase = removeFromfavoritesUseCase;
 
   bool _isLoading = false;
 
@@ -30,17 +30,17 @@ class DiscoverBooksController extends ChangeNotifier {
 
   final List<BookEntity> _books = [];
 
-  final List<BookEntity> _favouriteBooks = [];
+  final List<BookEntity> _favoriteBooks = [];
 
   List<BookEntity> get books => _books;
 
-  List<BookEntity> get booksToShow => _tabIsFavourites ? _favouriteBooks : _books;
+  List<BookEntity> get booksToShow => _tabIsfavorites ? _favoriteBooks : _books;
 
-  bool _tabIsFavourites = false;
+  bool _tabIsfavorites = false;
 
-  List<BookEntity> get favouriteBooks => _favouriteBooks;
+  List<BookEntity> get favoriteBooks => _favoriteBooks;
 
-  bool get tabIsFavourites => _tabIsFavourites;
+  bool get tabIsfavorites => _tabIsfavorites;
 
   void setLoading(bool value) {
     _isLoading = value;
@@ -62,21 +62,21 @@ class DiscoverBooksController extends ChangeNotifier {
         result = Result.failure(error);
       },
     );
-    _tabIsFavourites = false;
+    _tabIsfavorites = false;
 
     setLoading(false);
     return result;
   }
 
-  Future<Result<bool>> getFavourites() async {
+  Future<Result<bool>> getfavorites() async {
     setLoading(true);
-    final response = await _getFavouritesUseCase();
+    final response = await _getfavoritesUseCase();
     late final Result<bool> result;
 
     response.when(
       success: (books) {
-        _favouriteBooks.clear();
-        _favouriteBooks.addAll(books);
+        _favoriteBooks.clear();
+        _favoriteBooks.addAll(books);
         result = const Result.success(true);
       },
       failure: (error) {
@@ -84,34 +84,34 @@ class DiscoverBooksController extends ChangeNotifier {
       },
     );
 
-    _tabIsFavourites = true;
+    _tabIsfavorites = true;
 
     setLoading(false);
     return result;
   }
 
-  void setTabIsFavourites(bool value) {
-    _tabIsFavourites = value;
-    if (_tabIsFavourites) {
-      getFavourites();
+  void setTabIsfavorites(bool value) {
+    _tabIsfavorites = value;
+    if (_tabIsfavorites) {
+      getfavorites();
     }
     notifyListeners();
   }
 
-  Future<void> toggleFavouriteBook(BookEntity book) async {
-    book.isFavourite = !book.isFavourite;
-    if (book.isFavourite) {
-      _favouriteBooks.add(book);
+  Future<void> togglefavoriteBook(BookEntity book) async {
+    book.isfavorite = !book.isfavorite;
+    if (book.isfavorite) {
+      _favoriteBooks.add(book);
       await _saveFavoriteBookUseCase(book);
     } else {
-      final index = _favouriteBooks.indexWhere((element) => element.id == book.id);
-      _favouriteBooks.removeAt(index);
+      final index = _favoriteBooks.indexWhere((element) => element.id == book.id);
+      _favoriteBooks.removeAt(index);
       try {
-        _books.firstWhere((element) => element.id == book.id).isFavourite = false;
+        _books.firstWhere((element) => element.id == book.id).isfavorite = false;
       } on StateError catch (e) {
         debugPrint(e.toString());
       }
-      await _removeFromFavouritesUseCase(book);
+      await _removeFromfavoritesUseCase(book);
     }
     notifyListeners();
   }

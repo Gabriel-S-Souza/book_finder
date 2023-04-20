@@ -17,7 +17,7 @@ class BookDetailsEntity {
   final double? price;
   final String? currencyCode;
   final String? buyLink;
-  bool isFavourite;
+  bool isfavorite;
 
   BookDetailsEntity({
     required this.id,
@@ -38,6 +38,6 @@ class BookDetailsEntity {
     this.price,
     this.currencyCode,
     this.buyLink,
-    this.isFavourite = false,
+    this.isfavorite = false,
   });
 }

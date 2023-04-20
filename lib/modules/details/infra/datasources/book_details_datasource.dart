@@ -5,6 +5,6 @@ import '../../data/models/book_details_model.dart';
 
 abstract class BookDetailsDatasource {
   Future<Result<BookDetailsModel>> getBookDetails(String bookId);
-  Future<Result<bool>> removeFavourite(String bookId);
-  Future<Result<bool>> saveFavourite(BookDetailsEntity book);
+  Future<Result<bool>> removefavorite(String bookId);
+  Future<Result<bool>> savefavorite(BookDetailsEntity book);
 }

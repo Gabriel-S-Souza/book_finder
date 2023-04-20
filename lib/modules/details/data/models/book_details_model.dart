@@ -21,7 +21,7 @@ class BookDetailsModel extends BookDetailsEntity {
     double? price,
     String? currencyCode,
     String? buyLink,
-    bool isFavourite = false,
+    bool isfavorite = false,
   }) : super(
           id: id,
           title: title,
@@ -40,7 +40,7 @@ class BookDetailsModel extends BookDetailsEntity {
           price: price,
           currencyCode: currencyCode,
           buyLink: buyLink,
-          isFavourite: isFavourite,
+          isfavorite: isfavorite,
           smallImage: smallImage,
         );
 
@@ -92,7 +92,7 @@ class BookDetailsModel extends BookDetailsEntity {
       price: json['price'],
       currencyCode: json['currencyCode'],
       buyLink: json['buyLink'],
-      isFavourite: json['isFavourite'],
+      isfavorite: json['isfavorite'],
     );
   }
 
@@ -115,7 +115,7 @@ class BookDetailsModel extends BookDetailsEntity {
       price: entity.price,
       currencyCode: entity.currencyCode,
       buyLink: entity.buyLink,
-      isFavourite: entity.isFavourite,
+      isfavorite: entity.isfavorite,
       smallImage: entity.smallImage,
     );
   }
@@ -140,7 +140,7 @@ class BookDetailsModel extends BookDetailsEntity {
       'price': price,
       'currencyCode': currencyCode,
       'buyLink': buyLink,
-      'isFavourite': isFavourite,
+      'isfavorite': isfavorite,
     };
   }
 }

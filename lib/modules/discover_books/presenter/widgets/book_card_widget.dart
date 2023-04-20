@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 
 class BookCardWidget extends StatelessWidget {
   final BookEntity book;
-  final void Function(BookEntity) toggleFavourite;
+  final void Function(BookEntity) togglefavorite;
   final void Function(BookEntity) onTap;
   const BookCardWidget({
     super.key,
     required this.book,
-    required this.toggleFavourite,
+    required this.togglefavorite,
     required this.onTap,
   });
 
@@ -111,9 +111,9 @@ class BookCardWidget extends StatelessWidget {
                     height: 40,
                     child: IconButton(
                       icon: Icon(
-                        book.isFavourite ? Icons.favorite : Icons.favorite_border,
+                        book.isfavorite ? Icons.favorite : Icons.favorite_border,
                       ),
-                      onPressed: () => toggleFavourite(book),
+                      onPressed: () => togglefavorite(book),
                     ),
                   ),
                 ),

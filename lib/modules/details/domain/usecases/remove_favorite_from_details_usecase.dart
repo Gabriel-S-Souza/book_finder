@@ -2,19 +2,17 @@ import '../../../../core/commom/domain/result.dart';
 import '../entities/book_details_entity.dart';
 import '../repositories/book_details_repository.dart';
 
-abstract class SaveFavoriteFromDetailsUseCase {
+abstract class RemovefavoriteFromDetailsUseCase {
   Future<Result<bool>> call(BookDetailsEntity book);
 }
 
-class SaveFavoriteFromDetailsUseCaseImp implements SaveFavoriteFromDetailsUseCase {
+class RemovefavoriteFromDetailsUseCaseImp implements RemovefavoriteFromDetailsUseCase {
   final BookDetailsRepository _repository;
 
-  SaveFavoriteFromDetailsUseCaseImp({
+  RemovefavoriteFromDetailsUseCaseImp({
     required BookDetailsRepository repository,
   }) : _repository = repository;
 
   @override
-  Future<Result<bool>> call(BookDetailsEntity book) async {
-    return _repository.saveFavourite(book);
-  }
+  Future<Result<bool>> call(BookDetailsEntity book) => _repository.removefavorite(book.id);
 }

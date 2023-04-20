@@ -37,10 +37,10 @@ class BooksDatasourceImp implements BooksDatasource {
       final books =
           (response.data['items'] as List).map((book) => BookModel.fromJson(book)).toList();
 
-      final favouriteResponse = await getFavourites();
-      final favouriteBooks = favouriteResponse.isSuccess ? favouriteResponse.data : [];
+      final favoriteResponse = await getfavorites();
+      final favoriteBooks = favoriteResponse.isSuccess ? favoriteResponse.data : [];
 
-      final booksResult = _markFavouriteBooks(books, favouriteBooks);
+      final booksResult = _markfavoriteBooks(books, favoriteBooks);
 
       return Result.success(booksResult);
     } on Failure catch (e) {
@@ -51,9 +51,9 @@ class BooksDatasourceImp implements BooksDatasource {
   }
 
   @override
-  Future<Result<List<BookModel>>> getFavourites() async {
+  Future<Result<List<BookModel>>> getfavorites() async {
     try {
-      final booksJson = _localStorage.getList(StorageKeys.favouriteBooks) ?? [];
+      final booksJson = _localStorage.getList(StorageKeys.favoriteBooks) ?? [];
       final books = booksJson.map((book) => BookModel.fromLocalJson(jsonDecode(book))).toList();
       return Result.success(books);
     } on Failure catch (e) {
@@ -66,7 +66,7 @@ class BooksDatasourceImp implements BooksDatasource {
   @override
   Future<Result<List<BookModel>>> searchBooksLocally(String query) async {
     try {
-      final booksJson = _localStorage.getList(StorageKeys.favouriteBooks);
+      final booksJson = _localStorage.getList(StorageKeys.favoriteBooks);
       if (booksJson != null) {
         final books = booksJson.map((book) => BookModel.fromLocalJson(jsonDecode(book))).toList();
 
@@ -93,10 +93,10 @@ class BooksDatasourceImp implements BooksDatasource {
   }
 
   @override
-  Future<Result<bool>> saveFavourite(BookEntity bookEntityToSave) async {
+  Future<Result<bool>> savefavorite(BookEntity bookEntityToSave) async {
     try {
       final bookToSave = BookModel.fromEntity(bookEntityToSave);
-      final booksJson = _localStorage.getList(StorageKeys.favouriteBooks) ?? [];
+      final booksJson = _localStorage.getList(StorageKeys.favoriteBooks) ?? [];
 
       final List<Map<String, dynamic>> decodedJsonList = List<Map<String, dynamic>>.from(
           booksJson.map((bookEncoded) => jsonDecode(bookEncoded)).toList());
@@ -106,7 +106,7 @@ class BooksDatasourceImp implements BooksDatasource {
         books.add(bookToSave);
         final booksStringList = books.map((book) => jsonEncode(book)).toList();
         final result =
-            await _localStorage.setList(key: StorageKeys.favouriteBooks, value: booksStringList);
+            await _localStorage.setList(key: StorageKeys.favoriteBooks, value: booksStringList);
         return Result.success(result);
       } else {
         return const Result.success(true);
@@ -119,11 +119,11 @@ class BooksDatasourceImp implements BooksDatasource {
   }
 
   @override
-  Future<Result<bool>> removeFavourite(String bookId) async {
+  Future<Result<bool>> removefavorite(String bookId) async {
     try {
-      final favourites = _localStorage.getList(StorageKeys.favouriteBooks) ?? [];
+      final favorites = _localStorage.getList(StorageKeys.favoriteBooks) ?? [];
       bool removed = false;
-      favourites.removeWhere((element) {
+      favorites.removeWhere((element) {
         final book = BookModel.fromLocalJson(jsonDecode(element));
         if (book.id == bookId) {
           removed = true;
@@ -132,20 +132,20 @@ class BooksDatasourceImp implements BooksDatasource {
           return false;
         }
       });
-      await _localStorage.setList(key: StorageKeys.favouriteBooks, value: favourites);
+      await _localStorage.setList(key: StorageKeys.favoriteBooks, value: favorites);
       return Result.success(removed);
     } catch (e) {
-      return Result.failure(Failure('Error removing from favourites'));
+      return Result.failure(Failure('Error removing from favorites'));
     }
   }
 
   @override
-  Future<Result<bool>> removeAllFavourites() async {
+  Future<Result<bool>> removeAllfavorites() async {
     try {
-      final result = await _localStorage.delete(key: StorageKeys.favouriteBooks);
+      final result = await _localStorage.delete(key: StorageKeys.favoriteBooks);
       return Result.success(result);
     } catch (e) {
-      return Result.failure(Failure('Error removing from favourites'));
+      return Result.failure(Failure('Error removing from favorites'));
     }
   }
 
@@ -153,11 +153,11 @@ class BooksDatasourceImp implements BooksDatasource {
     return query.trim().split(' ');
   }
 
-  List<BookModel> _markFavouriteBooks(List<BookModel> books, List favouriteBooks) {
+  List<BookModel> _markfavoriteBooks(List<BookModel> books, List favoriteBooks) {
     final booksResult = books.map((book) {
-      final bookExists = favouriteBooks.any((element) => element.id == book.id);
+      final bookExists = favoriteBooks.any((element) => element.id == book.id);
       if (bookExists) {
-        return book..isFavourite = true;
+        return book..isfavorite = true;
       } else {
         return book;
       }

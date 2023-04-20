@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import '../../../../core/commom/domain/result.dart';
 import '../../domain/entities/book_details_entity.dart';
 import '../../domain/usecases/get_details_use_case.dart';
-import '../../domain/usecases/remove_favourite_from_details_usecase.dart';
-import '../../domain/usecases/save_favourite_usecase.dart';
+import '../../domain/usecases/remove_favorite_from_details_usecase.dart';
+import '../../domain/usecases/save_favorite_usecase.dart';
 
 class BookDetailsController extends ChangeNotifier {
   final GetDetailsUseCase _getDetailsUseCase;
   final SaveFavoriteFromDetailsUseCase _saveFavoriteBookUseCase;
-  final RemoveFavouriteFromDetailsUseCase _removeFromFavouritesUseCase;
+  final RemovefavoriteFromDetailsUseCase _removeFromfavoritesUseCase;
 
   BookDetailsController({
     required GetDetailsUseCase getDetailsUseCase,
     required SaveFavoriteFromDetailsUseCase saveFavoriteBookUseCase,
-    required RemoveFavouriteFromDetailsUseCase removeFromFavouritesUseCase,
+    required RemovefavoriteFromDetailsUseCase removeFromfavoritesUseCase,
   })  : _getDetailsUseCase = getDetailsUseCase,
         _saveFavoriteBookUseCase = saveFavoriteBookUseCase,
-        _removeFromFavouritesUseCase = removeFromFavouritesUseCase;
+        _removeFromfavoritesUseCase = removeFromfavoritesUseCase;
 
   bool _isLoading = false;
 
@@ -60,12 +60,12 @@ class BookDetailsController extends ChangeNotifier {
     return result;
   }
 
-  Future<void> toggleFavouriteBook(BookDetailsEntity book) async {
-    book.isFavourite = !book.isFavourite;
-    if (book.isFavourite) {
+  Future<void> togglefavoriteBook(BookDetailsEntity book) async {
+    book.isfavorite = !book.isfavorite;
+    if (book.isfavorite) {
       await _saveFavoriteBookUseCase(book);
     } else {
-      await _removeFromFavouritesUseCase(book);
+      await _removeFromfavoritesUseCase(book);
     }
     requiresRefreshOnBack = true;
     notifyListeners();

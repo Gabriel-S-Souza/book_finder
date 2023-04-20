@@ -15,6 +15,6 @@ class SaveFavoriteBookUseCaseImp implements SaveFavoriteBookUseCase {
 
   @override
   Future<Result<bool>> call(BookEntity book) async {
-    return _repository.saveFavourite(book);
+    return _repository.savefavorite(book);
   }
 }

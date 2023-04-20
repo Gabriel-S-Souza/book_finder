@@ -10,7 +10,7 @@ class HttpClient {
     _addInterceptor();
   }
 
-  Future<Response> get(String url, [bool mockSearch = false, bool mockFavourites = false]) async {
+  Future<Response> get(String url, [bool mockSearch = false, bool mockfavorites = false]) async {
     // TODO: remove this mock
     if (mockSearch) {
       return Response(
@@ -19,10 +19,10 @@ class HttpClient {
         statusCode: 200,
       );
     }
-    if (mockFavourites) {
+    if (mockfavorites) {
       return Response(
         requestOptions: RequestOptions(path: url),
-        data: mockFavourites,
+        data: mockfavorites,
         statusCode: 200,
       );
     }

@@ -18,8 +18,8 @@ class BookDetailsRepositoryImp implements BookDetailsRepository {
       _datasource.getBookDetails(bookId);
 
   @override
-  Future<Result<bool>> removeFavourite(String bookId) => _datasource.removeFavourite(bookId);
+  Future<Result<bool>> removefavorite(String bookId) => _datasource.removefavorite(bookId);
 
   @override
-  Future<Result<bool>> saveFavourite(BookDetailsEntity book) => _datasource.saveFavourite(book);
+  Future<Result<bool>> savefavorite(BookDetailsEntity book) => _datasource.savefavorite(book);
 }

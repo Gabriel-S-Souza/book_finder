@@ -1,4 +1,4 @@
 class StorageKeys {
-  static const String favouriteBooks = 'favouriteBooks';
+  static const String favoriteBooks = 'favoriteBooks';
   // static const String lastSearch = 'lastSearch';
 }

@@ -22,7 +22,7 @@ class BookModel extends BookEntity {
     double? price,
     String? currencyCode,
     String? buyLink,
-    bool isFavourite = false,
+    bool isfavorite = false,
   }) : super(
           id: id,
           title: title,
@@ -42,7 +42,7 @@ class BookModel extends BookEntity {
           price: price,
           currencyCode: currencyCode,
           buyLink: buyLink,
-          isFavourite: isFavourite,
+          isfavorite: isfavorite,
         );
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
@@ -93,7 +93,7 @@ class BookModel extends BookEntity {
       price: entity.price,
       currencyCode: entity.currencyCode,
       buyLink: entity.buyLink,
-      isFavourite: entity.isFavourite,
+      isfavorite: entity.isfavorite,
     );
   }
 
@@ -117,7 +117,7 @@ class BookModel extends BookEntity {
       price: map['price'],
       currencyCode: map['currencyCode'],
       buyLink: map['buyLink'],
-      isFavourite: map['isFavourite'],
+      isfavorite: map['isfavorite'],
     );
   }
 
@@ -141,7 +141,7 @@ class BookModel extends BookEntity {
       'price': price,
       'currencyCode': currencyCode,
       'buyLink': buyLink,
-      'isFavourite': isFavourite,
+      'isfavorite': isfavorite,
     };
   }
 }

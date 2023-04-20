@@ -12,16 +12,16 @@ class BooksRepositoryImp implements BooksRepository {
   }) : _datasource = datasource;
 
   @override
-  Future<Result<List<BookModel>>> getFavourites() => _datasource.getFavourites();
+  Future<Result<List<BookModel>>> getfavorites() => _datasource.getfavorites();
 
   @override
-  Future<Result<bool>> removeAllFavourites() => _datasource.removeAllFavourites();
+  Future<Result<bool>> removeAllfavorites() => _datasource.removeAllfavorites();
 
   @override
-  Future<Result<bool>> removeFavourite(String bookId) => _datasource.removeFavourite(bookId);
+  Future<Result<bool>> removefavorite(String bookId) => _datasource.removefavorite(bookId);
 
   @override
-  Future<Result<bool>> saveFavourite(BookEntity book) => _datasource.saveFavourite(book);
+  Future<Result<bool>> savefavorite(BookEntity book) => _datasource.savefavorite(book);
 
   @override
   Future<Result<List<BookModel>>> searchBooks(String query) => _datasource.searchBooks(query);

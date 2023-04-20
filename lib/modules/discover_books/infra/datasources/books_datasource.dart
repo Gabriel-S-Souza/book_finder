@@ -6,8 +6,8 @@ import '../../domain/entities/book_entity.dart';
 abstract class BooksDatasource {
   Future<Result<List<BookModel>>> searchBooks(String query);
   Future<Result<List<BookModel>>> searchBooksLocally(String query);
-  Future<Result<List<BookModel>>> getFavourites();
-  Future<Result<bool>> saveFavourite(BookEntity book);
-  Future<Result<bool>> removeFavourite(String bookId);
-  Future<Result<bool>> removeAllFavourites();
+  Future<Result<List<BookModel>>> getfavorites();
+  Future<Result<bool>> savefavorite(BookEntity book);
+  Future<Result<bool>> removefavorite(String bookId);
+  Future<Result<bool>> removeAllfavorites();
 }

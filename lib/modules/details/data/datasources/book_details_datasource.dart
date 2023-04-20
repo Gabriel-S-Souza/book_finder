@@ -35,10 +35,10 @@ class BookDetailsDatasourceImp implements BookDetailsDatasource {
   }
 
   @override
-  Future<Result<bool>> saveFavourite(BookDetailsEntity bookEntity) async {
+  Future<Result<bool>> savefavorite(BookDetailsEntity bookEntity) async {
     try {
       final bookToSave = BookDetailsModel.fromEntity(bookEntity);
-      final booksJson = _localStorage.getList(StorageKeys.favouriteBooks) ?? [];
+      final booksJson = _localStorage.getList(StorageKeys.favoriteBooks) ?? [];
 
       final List<Map<String, dynamic>> decodedJsonList = List<Map<String, dynamic>>.from(
           booksJson.map((bookEncoded) => jsonDecode(bookEncoded)).toList());
@@ -49,7 +49,7 @@ class BookDetailsDatasourceImp implements BookDetailsDatasource {
         books.add(bookToSave);
         final booksStringList = books.map((book) => jsonEncode(book)).toList();
         final result =
-            await _localStorage.setList(key: StorageKeys.favouriteBooks, value: booksStringList);
+            await _localStorage.setList(key: StorageKeys.favoriteBooks, value: booksStringList);
         return Result.success(result);
       } else {
         return const Result.success(true);
@@ -62,11 +62,11 @@ class BookDetailsDatasourceImp implements BookDetailsDatasource {
   }
 
   @override
-  Future<Result<bool>> removeFavourite(String bookId) async {
+  Future<Result<bool>> removefavorite(String bookId) async {
     try {
-      final favourites = _localStorage.getList(StorageKeys.favouriteBooks) ?? [];
+      final favorites = _localStorage.getList(StorageKeys.favoriteBooks) ?? [];
       bool removed = false;
-      favourites.removeWhere((element) {
+      favorites.removeWhere((element) {
         final book = BookDetailsModel.fromLocalJson(jsonDecode(element));
         if (book.id == bookId) {
           removed = true;
@@ -75,10 +75,10 @@ class BookDetailsDatasourceImp implements BookDetailsDatasource {
           return false;
         }
       });
-      await _localStorage.setList(key: StorageKeys.favouriteBooks, value: favourites);
+      await _localStorage.setList(key: StorageKeys.favoriteBooks, value: favorites);
       return Result.success(removed);
     } catch (e) {
-      return Result.failure(Failure('Error removing from favourites'));
+      return Result.failure(Failure('Error removing from favorites'));
     }
   }
 }
