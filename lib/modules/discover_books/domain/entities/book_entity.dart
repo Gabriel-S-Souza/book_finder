@@ -40,8 +40,4 @@ class BookEntity {
     this.buyLink,
     this.isFavourite = false,
   });
-
-  void toggleFavorite() {
-    isFavourite = !isFavourite;
-  }
 }

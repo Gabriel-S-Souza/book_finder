@@ -5,6 +5,7 @@ import 'package:book_finder/modules/discover_books/domain/services/connectivity_
 import 'package:book_finder/modules/discover_books/domain/usecases/favourite_book_usecase.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/get_favourites_use_case.dart';
 import 'package:book_finder/modules/discover_books/domain/usecases/search_books_use_case.dart';
+import 'package:book_finder/modules/discover_books/presenter/controllers/discover_books_controller.dart';
 import 'package:get_it/get_it.dart';
 import '../../modules/details/data/datasources/book_details_datasource.dart';
 import '../../modules/details/domain/repositories/book_details_repository.dart';
@@ -66,6 +67,13 @@ class ServiceLocatorImp implements ServiceLocator {
 
     _getIt
         .registerFactory<GetFavouritesUseCase>(() => GetFavouritesUseCaseImp(repository: _getIt()));
+
+    _getIt.registerSingleton<DiscoverBooksController>(DiscoverBooksController(
+      searchBooksUseCase: _getIt(),
+      getFavouritesUseCase: _getIt(),
+      saveFavoriteBookUseCase: _getIt(),
+      removeFromFavouritesUseCase: _getIt(),
+    ));
   }
 
   @override
