@@ -32,7 +32,9 @@ class TextFieldWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
-        color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+        color: Theme.of(context).colorScheme.brightness == Brightness.light
+            ? Theme.of(context).colorScheme.onSurface.withAlpha(50)
+            : Theme.of(context).colorScheme.onSurface.withAlpha(130),
         borderRadius: BorderRadius.circular(32),
       ),
       padding: prefix != null ? null : const EdgeInsets.only(left: 16),

@@ -55,26 +55,23 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ImageViewerComponent(
-                          imageUrl: _controller.bookDetails!.image,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ImageViewerComponent(
+                        imageUrl: _controller.bookDetails!.image,
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: BookInformationsComponent(
+                          controller: _controller,
+                          description: widget.bookEntity.description ??
+                              _controller.bookDetails!.description ??
+                              t.noDescription,
                         ),
-                        const SizedBox(height: 24),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: BookInformationsComponent(
-                            controller: _controller,
-                            description: widget.bookEntity.description ??
-                                _controller.bookDetails!.description ??
-                                t.noDescription,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Positioned(
                     top: 16,
@@ -83,7 +80,9 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                       onPressed: () => Navigator.of(context).pop(_controller.requiresRefreshOnBack),
                       icon: const Icon(Icons.arrow_back),
                       iconSize: 28,
-                      color: Theme.of(context).colorScheme.onPrimary.withAlpha(180),
+                      color: Theme.of(context).colorScheme.brightness == Brightness.light
+                          ? Theme.of(context).colorScheme.onSecondary.withAlpha(180)
+                          : Theme.of(context).colorScheme.onPrimary.withAlpha(180),
                     ),
                   ),
                 ],

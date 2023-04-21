@@ -37,7 +37,7 @@ class _ImageViewerComponentState extends State<ImageViewerComponent> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           colorFilter: ColorFilter.mode(
-                            Theme.of(context).colorScheme.onSurface.withAlpha(130),
+                            Colors.white.withAlpha(130),
                             BlendMode.screen,
                           ),
                           image: NetworkImage(
@@ -62,7 +62,7 @@ class _ImageViewerComponentState extends State<ImageViewerComponent> {
                       height: 32,
                       width: constraints.maxWidth,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.surface,
+                        color: Theme.of(context).colorScheme.background,
                         borderRadius: const BorderRadius.only(
                           topLeft: Radius.elliptical(24, 16),
                           topRight: Radius.elliptical(24, 16),
@@ -94,8 +94,8 @@ class _ImageViewerComponentState extends State<ImageViewerComponent> {
                               placeholder: (context, url) => Center(
                                 child: SizedBox.expand(
                                   child: Shimmer.fromColors(
-                                    baseColor: Theme.of(context).colorScheme.onInverseSurface,
-                                    highlightColor: Theme.of(context).colorScheme.onSecondary,
+                                    baseColor: Colors.black45,
+                                    highlightColor: Colors.black12,
                                     child: Container(
                                       color: Theme.of(context).colorScheme.primary,
                                     ),

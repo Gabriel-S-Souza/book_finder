@@ -97,22 +97,26 @@ class BookCardWidget extends StatelessWidget {
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(40),
-                    gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context).primaryColor.withOpacity(0.02),
-                        Theme.of(context).primaryColor.withOpacity(0.6),
-                      ],
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                    ),
+                    gradient: Theme.of(context).brightness == Brightness.dark
+                        ? LinearGradient(
+                            colors: [
+                              Theme.of(context).colorScheme.onSecondary.withOpacity(0.02),
+                              Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
+                            ],
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                          )
+                        : null,
                   ),
                   child: SizedBox(
                     width: 40,
                     height: 40,
                     child: IconButton(
-                      icon: Icon(
-                        book.isfavorite ? Icons.favorite : Icons.favorite_border,
-                      ),
+                      splashRadius: 20,
+                      icon: Icon(book.isfavorite ? Icons.favorite : Icons.favorite_border,
+                          color: Theme.of(context).colorScheme.brightness == Brightness.dark
+                              ? Theme.of(context).colorScheme.onSurface
+                              : Theme.of(context).colorScheme.surfaceTint.withAlpha(180)),
                       onPressed: () => togglefavorite(book),
                     ),
                   ),

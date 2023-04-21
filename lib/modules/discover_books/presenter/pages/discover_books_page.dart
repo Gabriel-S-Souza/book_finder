@@ -10,6 +10,7 @@ import '../../../../locale_service.dart';
 import '../components/search_bar_component.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../components/tab_bar_component.dart';
 import '../widgets/no_books_to_show_widget.dart';
 
 class DiscoverBooksPage extends StatefulWidget {
@@ -60,20 +61,16 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
               builder: (context, _) {
                 return Column(
                   children: [
-                    TabBar(
+                    TabBarComponent(
                       controller: _tabController,
                       onTap: (index) {
                         bool showfavorites = index == 1;
                         _tabController.animateTo(showfavorites ? 1 : 0);
                         _controller.setTabIsfavorites(showfavorites);
                       },
-                      tabs: [
-                        Tab(
-                          text: t.all,
-                        ),
-                        Tab(
-                          text: t.favorites,
-                        ),
+                      tabTitles: [
+                        t.all,
+                        t.favorites,
                       ],
                     ),
                     Expanded(
