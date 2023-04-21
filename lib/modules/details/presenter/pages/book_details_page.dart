@@ -43,57 +43,53 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(top: 0),
-          child: AnimatedBuilder(
-            animation: _controller,
-            builder: (context, _) {
-              if (_controller.isLoading) {
-                return const LoadingWidget();
-              } else if (_controller.bookDetails == null) {
-                return const DetailsNotFoundWidget();
-              }
-              return SingleChildScrollView(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ImageViewerComponent(
-                            imageUrl: _controller.bookDetails!.image,
+        body: AnimatedBuilder(
+          animation: _controller,
+          builder: (context, _) {
+            if (_controller.isLoading) {
+              return const LoadingWidget();
+            } else if (_controller.bookDetails == null) {
+              return const DetailsNotFoundWidget();
+            }
+            return SingleChildScrollView(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ImageViewerComponent(
+                          imageUrl: _controller.bookDetails!.image,
+                        ),
+                        const SizedBox(height: 24),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: BookInformationsComponent(
+                            controller: _controller,
+                            description: widget.bookEntity.description ??
+                                _controller.bookDetails!.description ??
+                                t.noDescription,
                           ),
-                          const SizedBox(height: 74),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: BookInformationsComponent(
-                              controller: _controller,
-                              description: widget.bookEntity.description ??
-                                  _controller.bookDetails!.description ??
-                                  t.noDescription,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Positioned(
-                      top: 16,
-                      left: 8,
-                      child: IconButton(
-                        onPressed: () =>
-                            Navigator.of(context).pop(_controller.requiresRefreshOnBack),
-                        icon: const Icon(Icons.arrow_back),
-                        iconSize: 28,
-                        color: Theme.of(context).colorScheme.onPrimary.withAlpha(180),
-                      ),
+                  ),
+                  Positioned(
+                    top: 16,
+                    left: 8,
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(_controller.requiresRefreshOnBack),
+                      icon: const Icon(Icons.arrow_back),
+                      iconSize: 28,
+                      color: Theme.of(context).colorScheme.onPrimary.withAlpha(180),
                     ),
-                  ],
-                ),
-              );
-            },
-          ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
         persistentFooterButtons: [
           AnimatedBuilder(

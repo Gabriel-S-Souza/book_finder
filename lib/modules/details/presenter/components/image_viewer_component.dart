@@ -15,10 +15,11 @@ class _ImageViewerComponentState extends State<ImageViewerComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
       height: isPortrait
           ? MediaQuery.of(context).size.height * 0.34
-          : MediaQuery.of(context).size.height * 0.4,
+          : MediaQuery.of(context).size.height * 0.5,
       child: LayoutBuilder(builder: (context, constraints) {
         return ConstrainedBox(
           constraints:

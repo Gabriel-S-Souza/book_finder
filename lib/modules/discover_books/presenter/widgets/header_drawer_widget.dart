@@ -16,19 +16,19 @@ class DrawerHeaderWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.book,
             size: 80,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.primary.withAlpha(180),
           ),
           const SizedBox(height: 10),
           Flexible(
             fit: FlexFit.loose,
             child: AutoSizeText(
               t(context).appTitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),

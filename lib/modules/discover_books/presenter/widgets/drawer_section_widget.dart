@@ -23,7 +23,7 @@ class DrawerSectionWidget extends StatelessWidget {
           horizontalTitleGap: 16,
           leading: Icon(
             icon,
-            color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
+            color: Theme.of(context).colorScheme.primary,
           ),
           title: Text(
             title,
