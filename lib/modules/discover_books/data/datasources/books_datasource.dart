@@ -4,6 +4,7 @@ import 'package:book_finder/core/commom/infra/datasources/local_storage.dart';
 import 'package:book_finder/core/utils/api_routes.dart';
 import 'package:book_finder/core/commom/domain/result.dart';
 import 'package:book_finder/core/utils/storage_keys.dart';
+import 'package:book_finder/locale_service.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:book_finder/modules/discover_books/infra/datasources/books_datasource.dart';
 import '../models/book_model.dart';
@@ -13,12 +14,15 @@ import '../../../../core/http/http_client.dart';
 class BooksDatasourceImp implements BooksDatasource {
   final HttpClient _httpClient;
   final LocalStorage _localStorage;
+  final LocaleService _localeService;
 
   BooksDatasourceImp({
     required HttpClient httpClient,
     required LocalStorage localStorage,
+    required LocaleService localeService,
   })  : _httpClient = httpClient,
-        _localStorage = localStorage;
+        _localStorage = localStorage,
+        _localeService = localeService;
 
   @override
   Future<Result<List<BookModel>>> searchBooks(
@@ -31,9 +35,11 @@ class BooksDatasourceImp implements BooksDatasource {
     // log('pageNumber: $pageNumber');
     // log('startNumber: $startIndex');
 
+    final String locale = _localeService.locale.languageCode;
+
     try {
-      final response = await _httpClient
-          .get('${ApiRoutes.searchBooks}$queryFormatted&maxResults=40&startIndex=$startIndex');
+      final response = await _httpClient.get(
+          '${ApiRoutes.searchBooks}$queryFormatted&maxResults=40&startIndex=$startIndex&langRestrict=$locale');
       final books =
           (response.data['items'] as List).map((book) => BookModel.fromJson(book)).toList();
 

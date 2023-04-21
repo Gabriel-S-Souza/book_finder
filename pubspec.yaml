@@ -12,14 +12,18 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.17.0
   cupertino_icons: ^1.0.2
-
   dio: ^5.1.1
   get_it: ^7.2.0
   shared_preferences: ^2.1.0
   internet_connection_checker: ^1.0.0+1
   cached_network_image: ^3.2.3
   url_launcher: ^6.1.10
+  auto_size_text: ^3.0.0
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +32,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  generate: true
 
   uses-material-design: true
 

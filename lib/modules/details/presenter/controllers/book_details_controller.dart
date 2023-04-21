@@ -7,6 +7,7 @@ import '../../domain/entities/book_details_entity.dart';
 import '../../domain/usecases/get_details_use_case.dart';
 import '../../domain/usecases/remove_favorite_from_details_usecase.dart';
 import '../../domain/usecases/save_favorite_usecase.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BookDetailsController extends ChangeNotifier {
   final GetDetailsUseCase _getDetailsUseCase;
@@ -35,14 +36,14 @@ class BookDetailsController extends ChangeNotifier {
 
   bool get forSale => isLoading == false && bookDetails?.forSale == true;
 
-  String? get price {
+  String getPrice(AppLocalizations t) {
     if (isLoading == false && bookDetails?.forSale == true) {
       if (bookDetails?.price == 0) {
-        return 'Free';
+        return t.free;
       }
-      return '${currencyCodeFormatter(bookDetails!.currencyCode!)} ${bookDetails?.price?.toStringAsFixed(2)} Buy book';
+      return '${currencyCodeFormatter(bookDetails!.currencyCode!)} ${bookDetails?.price?.toStringAsFixed(2)} ${t.buyBook}';
     }
-    return null;
+    return t.priceNoAvailable;
   }
 
   void setBookDetails(BookDetailsEntity book) {

@@ -3,8 +3,8 @@ import 'package:book_finder/modules/details/data/models/book_details_model.dart'
 import 'package:book_finder/modules/details/presenter/widgets/elevated_button_widget.dart';
 import 'package:book_finder/modules/discover_books/data/models/book_model.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/commom/presenter/widgets/loading_widget.dart';
 import '../components/book_informations_component.dart';
@@ -25,6 +25,8 @@ class BookDetailsPage extends StatefulWidget {
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
   final _controller = ServiceLocatorImp.I.get<BookDetailsController>();
+
+  AppLocalizations get t => AppLocalizations.of(context)!;
 
   @override
   void initState() {
@@ -56,31 +58,35 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   alignment: Alignment.topCenter,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                      padding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 50),
                           ImageViewerComponent(
                             imageUrl: _controller.bookDetails!.image,
                           ),
-                          const SizedBox(height: 24),
-                          BookInformationsComponent(
-                            controller: _controller,
-                            description: widget.bookEntity.description ??
-                                _controller.bookDetails!.description ??
-                                'No description',
+                          const SizedBox(height: 74),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: BookInformationsComponent(
+                              controller: _controller,
+                              description: widget.bookEntity.description ??
+                                  _controller.bookDetails!.description ??
+                                  t.noDescription,
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Positioned(
-                      top: 2,
-                      left: 4,
+                      top: 16,
+                      left: 8,
                       child: IconButton(
                         onPressed: () =>
                             Navigator.of(context).pop(_controller.requiresRefreshOnBack),
                         icon: const Icon(Icons.arrow_back),
+                        iconSize: 28,
+                        color: Theme.of(context).colorScheme.onPrimary.withAlpha(180),
                       ),
                     ),
                   ],
@@ -100,7 +106,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                           _controller.launchBuyLink();
                         }
                       : null,
-                  text: _controller.price!,
+                  text: _controller.getPrice(t),
                 );
               } else {
                 return ElevatedButtonWidget(
@@ -109,7 +115,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                           _controller.launchInfoLink();
                         }
                       : null,
-                  text: 'Open in Google Books',
+                  text: t.openInGoogleBooks,
                 );
               }
             },

@@ -1,0 +1,18 @@
+{
+  "@@locale": "pt",
+  "appTitle": "Book Finder",
+  "all": "Todos",
+  "favorites": "Favoritos",
+  "noBooksToShow": "Nenhum livro para mostrar",
+  "searchPlaceholder": "Pesquisar livros",
+  "language": "Indioma",
+  "english": "Inglês",
+  "portuguese": "Português",
+  "spanish": "Espanhol",
+  "noDescription": "Sem descrição",
+  "openInGoogleBooks": "Abrir no Google Books",
+  "buyBook": "Comprar livro",
+  "free": "Grátis",
+  "priceNoAvailable": "Preço não disponível",
+  "detailsNotFound": "Detalhes não encontrados"
+}

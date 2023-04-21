@@ -1,0 +1,18 @@
+{
+    "@@locale": "es",
+    "appTitle": "Book Finder",
+    "all": "Todo",
+    "favorites": "Favoritos",
+    "noBooksToShow": "No hay libros para mostrar",
+    "searchPlaceholder": "Buscar libros",
+    "language": "Idioma",
+    "english": "Inglés",
+    "portuguese": "Portugués",
+    "spanish": "Español",
+    "noDescription": "Sin descripción",
+    "openInGoogleBooks": "Abrir en Google Books",
+    "buyBook": "Comprar libro",
+    "free": "Gratis",
+    "priceNoAvailable": "Precio no disponible",
+    "detailsNotFound": "No se encontraron detalles"
+}

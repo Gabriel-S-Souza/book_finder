@@ -1,4 +1,5 @@
 import 'package:book_finder/core/http/dio_config.dart';
+import 'package:book_finder/locale_service.dart';
 import 'package:book_finder/modules/details/domain/usecases/get_details_use_case.dart';
 import 'package:book_finder/modules/details/infra/datasources/book_details_datasource.dart';
 import 'package:book_finder/modules/details/presenter/controllers/book_details_controller.dart';
@@ -32,6 +33,9 @@ class ServiceLocatorImp implements ServiceLocator {
 
   @override
   void setupLocator() async {
+    // locale
+    _getIt.registerSingleton<LocaleService>(LocaleService());
+
     // http
     _getIt.registerFactory<HttpClient>(() => HttpClient(dioApp));
 
@@ -41,6 +45,7 @@ class ServiceLocatorImp implements ServiceLocator {
     _getIt.registerFactory<BooksDatasource>(() => BooksDatasourceImp(
           httpClient: _getIt(),
           localStorage: _getIt(),
+          localeService: _getIt(),
         ));
 
     _getIt.registerFactory<BookDetailsDatasource>(() => BookDetailsDatasourceImp(
@@ -103,4 +108,14 @@ class ServiceLocatorImp implements ServiceLocator {
 
   @override
   T get<T extends Object>() => _getIt.get<T>();
+
+  @override
+  void registerFactory<T extends Object>(T Function() factory) {
+    _getIt.registerFactory<T>(factory);
+  }
+
+  @override
+  void registerSingleton<T extends Object>(T instance) {
+    _getIt.registerSingleton<T>(instance);
+  }
 }

@@ -1,12 +1,20 @@
 import 'package:book_finder/modules/discover_books/presenter/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final void Function(String)? onSearch;
+  final VoidCallback? onMenuPressed;
 
-  SearchBarComponent({Key? key, this.onSearch}) : super(key: key);
+  SearchBarComponent({
+    Key? key,
+    this.onSearch,
+    this.onMenuPressed,
+  }) : super(key: key);
 
   final TextEditingController _controller = TextEditingController();
+
+  AppLocalizations t(BuildContext context) => AppLocalizations.of(context)!;
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +26,12 @@ class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget 
             offset: const Offset(-4, 0),
             child: IconButton(
               icon: const Icon(Icons.menu),
-              onPressed: () {
-                print('menu');
-              },
+              onPressed: onMenuPressed,
             ),
           ),
           Expanded(
             child: TextFieldWidget(
-              hint: 'Search',
+              hint: t(context).searchPlaceholder,
               controller: _controller,
               onSubmitted: (value) {
                 FocusScope.of(context).unfocus();
