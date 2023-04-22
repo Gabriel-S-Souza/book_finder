@@ -30,10 +30,7 @@ class BooksDatasourceImp implements BooksDatasource {
     int pageNumber = 1,
   ]) async {
     final queryFormatted = _getListOfWords(query).join('+');
-    // TODO: Implement pagination
     final int startIndex = _getStartIndex(pageNumber);
-    // log('pageNumber: $pageNumber');
-    // log('startNumber: $startIndex');
 
     final String locale = _appConfig.locale.languageCode;
 
@@ -44,7 +41,7 @@ class BooksDatasourceImp implements BooksDatasource {
           (response.data['items'] as List).map((book) => BookModel.fromJson(book)).toList();
 
       final favoriteResponse = await getfavorites();
-      final favoriteBooks = favoriteResponse.isSuccess ? favoriteResponse.data : [];
+      final List<BookModel> favoriteBooks = favoriteResponse.isSuccess ? favoriteResponse.data : [];
 
       final booksResult = _markfavoriteBooks(books, favoriteBooks);
 
@@ -79,12 +76,12 @@ class BooksDatasourceImp implements BooksDatasource {
         final searchQuery = query.toLowerCase();
 
         final filteredBooks = books
-            .where((book) => book.title.toLowerCase().contains(searchQuery) ||
-                    book.description != null
-                ? book.description!.toLowerCase().contains(searchQuery)
-                : false ||
-                    book.authors.any((author) => author.toLowerCase().contains(searchQuery)) ||
-                    book.categories.any((category) => category.toLowerCase().contains(searchQuery)))
+            .where((book) =>
+                book.title.toLowerCase().contains(searchQuery) ||
+                (book.description != null &&
+                    book.description!.toLowerCase().contains(searchQuery)) ||
+                book.authors.any((author) => author.toLowerCase().contains(searchQuery)) ||
+                book.categories.any((category) => category.toLowerCase().contains(searchQuery)))
             .toList();
 
         return Result.success(filteredBooks);
@@ -159,7 +156,7 @@ class BooksDatasourceImp implements BooksDatasource {
     return query.trim().split(' ');
   }
 
-  List<BookModel> _markfavoriteBooks(List<BookModel> books, List favoriteBooks) {
+  List<BookModel> _markfavoriteBooks(List<BookModel> books, List<BookModel> favoriteBooks) {
     final booksResult = books.map((book) {
       final bookExists = favoriteBooks.any((element) => element.id == book.id);
       if (bookExists) {

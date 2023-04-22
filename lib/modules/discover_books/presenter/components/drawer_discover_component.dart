@@ -1,6 +1,6 @@
 import 'package:book_finder/l10n/l10n.dart';
 import 'package:book_finder/modules/discover_books/presenter/widgets/drawer_section_widget.dart';
-import 'package:book_finder/modules/discover_books/presenter/widgets/header_drawer_widget.dart';
+import 'package:book_finder/modules/discover_books/presenter/widgets/drawer_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

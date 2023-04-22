@@ -6,7 +6,6 @@ import 'package:book_finder/modules/discover_books/presenter/controllers/discove
 import 'package:flutter/material.dart';
 
 import '../../../../core/commom/presenter/widgets/loading_widget.dart';
-import '../../../../app_config.dart';
 import '../components/search_bar_component.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,7 +21,6 @@ class DiscoverBooksPage extends StatefulWidget {
 
 class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProviderStateMixin {
   final _controller = ServiceLocatorImp.I.get<DiscoverBooksController>();
-  final _localController = ServiceLocatorImp.I.get<AppConfig>();
   late final TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -56,50 +54,51 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
           ),
           drawer: DrawerDiscoverComponent(),
           body: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, _) {
-                return Column(
-                  children: [
-                    TabBarComponent(
-                      controller: _tabController,
-                      onTap: (index) {
-                        bool showfavorites = index == 1;
-                        _tabController.animateTo(showfavorites ? 1 : 0);
-                        _controller.setTabIsfavorites(showfavorites);
-                      },
-                      tabTitles: [
-                        t.all,
-                        t.favorites,
-                      ],
-                    ),
-                    Expanded(
-                      child: Builder(
-                        builder: (context) {
-                          if (_controller.isLoading) {
-                            return const LoadingWidget();
-                          }
-                          if (_controller.booksToShow.isEmpty) {
-                            return const NoBooksToShowWidget();
-                          }
+            animation: _controller,
+            builder: (context, _) {
+              return Column(
+                children: [
+                  TabBarComponent(
+                    controller: _tabController,
+                    onTap: (index) {
+                      bool showfavorites = index == 1;
+                      _tabController.animateTo(showfavorites ? 1 : 0);
+                      _controller.setTabIsfavorites(showfavorites);
+                    },
+                    tabTitles: [
+                      t.all,
+                      t.favorites,
+                    ],
+                  ),
+                  Expanded(
+                    child: Builder(
+                      builder: (context) {
+                        if (_controller.isLoading) {
+                          return const LoadingWidget();
+                        }
+                        if (_controller.booksToShow.isEmpty) {
+                          return const NoBooksToShowWidget();
+                        }
 
-                          return GridBooksComponent(
-                            books: _controller.booksToShow,
-                            togglefavorite: _controller.togglefavoriteBook,
-                            onTap: (book) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => BookDetailsPage(bookEntity: book),
-                                ),
-                              );
-                            },
-                          );
-                        },
-                      ),
+                        return GridBooksComponent(
+                          books: _controller.booksToShow,
+                          togglefavorite: _controller.togglefavoriteBook,
+                          onTap: (book) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookDetailsPage(bookEntity: book),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
-                  ],
-                );
-              }),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
