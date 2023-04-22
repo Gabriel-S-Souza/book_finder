@@ -111,6 +111,7 @@ class BookInformationsComponent extends StatelessWidget {
               height: 1.3,
             ),
           ),
+          const SizedBox(height: 16),
         ],
       ),
     );

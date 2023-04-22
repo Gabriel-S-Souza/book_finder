@@ -1,4 +1,4 @@
-import 'package:book_finder/locale_service.dart';
+import 'package:book_finder/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -11,13 +11,14 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appConfig = ServiceLocatorImp.I.get<AppConfig>();
     return AnimatedBuilder(
-      animation: ServiceLocatorImp.I.get<LocaleService>(),
+      animation: appConfig,
       builder: (context, _) {
         return MaterialApp(
           title: 'Book Finder',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData.from(colorScheme: const ColorScheme.dark()),
+          theme: appConfig.theme,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -25,7 +26,7 @@ class AppWidget extends StatelessWidget {
             AppLocalizations.delegate,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
-          locale: ServiceLocatorImp.I.get<LocaleService>().locale,
+          locale: appConfig.locale,
           home: const DiscoverBooksPage(),
         );
       },

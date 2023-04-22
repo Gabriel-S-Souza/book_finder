@@ -36,10 +36,15 @@ class _ImageViewerComponentState extends State<ImageViewerComponent> {
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          colorFilter: ColorFilter.mode(
-                            Colors.white.withAlpha(130),
-                            BlendMode.screen,
-                          ),
+                          colorFilter: Theme.of(context).colorScheme.brightness == Brightness.light
+                              ? ColorFilter.mode(
+                                  Colors.white.withAlpha(130),
+                                  BlendMode.screen,
+                                )
+                              : ColorFilter.mode(
+                                  Colors.black.withAlpha(60),
+                                  BlendMode.srcATop,
+                                ),
                           image: NetworkImage(
                             widget.imageUrl,
                           ),

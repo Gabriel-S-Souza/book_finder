@@ -29,7 +29,7 @@ class LocalStorageImp implements LocalStorage {
   }
 
   @override
-  Future<String?> get(String key) async {
+  String? get(String key) {
     return _prefs.getString(key);
   }
 

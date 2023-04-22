@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum AppLocales { pt, en, es }
+
 class L10n {
   static final all = [
     const Locale('pt'),
@@ -7,5 +9,3 @@ class L10n {
     const Locale('es'),
   ];
 }
-
-enum AppLocales { pt, en, es }

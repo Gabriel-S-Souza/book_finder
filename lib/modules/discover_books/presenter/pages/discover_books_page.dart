@@ -6,7 +6,7 @@ import 'package:book_finder/modules/discover_books/presenter/controllers/discove
 import 'package:flutter/material.dart';
 
 import '../../../../core/commom/presenter/widgets/loading_widget.dart';
-import '../../../../locale_service.dart';
+import '../../../../app_config.dart';
 import '../components/search_bar_component.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,11 +22,12 @@ class DiscoverBooksPage extends StatefulWidget {
 
 class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProviderStateMixin {
   final _controller = ServiceLocatorImp.I.get<DiscoverBooksController>();
-  final _localController = ServiceLocatorImp.I.get<LocaleService>();
+  final _localController = ServiceLocatorImp.I.get<AppConfig>();
   late final TabController _tabController;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   AppLocalizations get t => AppLocalizations.of(context)!;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -48,14 +49,12 @@ class _DiscoverBooksPageState extends State<DiscoverBooksPage> with TickerProvid
               _controller.searchBooks(value);
               _tabController.animateTo(0);
             },
+            controller: _searchController,
             onMenuPressed: () {
               _scaffoldKey.currentState!.openDrawer();
             },
           ),
-          drawer: DrawerDiscoverComponent(
-            onLanguageChanged: _localController.set,
-            currentLocale: _localController.localeEnum,
-          ),
+          drawer: DrawerDiscoverComponent(),
           body: AnimatedBuilder(
               animation: _controller,
               builder: (context, _) {

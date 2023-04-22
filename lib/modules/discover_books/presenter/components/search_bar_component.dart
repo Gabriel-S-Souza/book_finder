@@ -5,14 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final void Function(String)? onSearch;
   final VoidCallback? onMenuPressed;
+  final TextEditingController controller;
 
-  SearchBarComponent({
+  const SearchBarComponent({
     Key? key,
     this.onSearch,
     this.onMenuPressed,
+    required this.controller,
   }) : super(key: key);
-
-  final TextEditingController _controller = TextEditingController();
 
   AppLocalizations t(BuildContext context) => AppLocalizations.of(context)!;
 
@@ -32,7 +32,7 @@ class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget 
           Expanded(
             child: TextFieldWidget(
               hint: t(context).searchPlaceholder,
-              controller: _controller,
+              controller: controller,
               onSubmitted: (value) {
                 FocusScope.of(context).unfocus();
                 if (value.isNotEmpty) {
@@ -45,9 +45,9 @@ class SearchBarComponent extends StatelessWidget implements PreferredSizeWidget 
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              if (_controller.text.isNotEmpty) {
+              if (controller.text.isNotEmpty) {
                 FocusScope.of(context).unfocus();
-                onSearch?.call(_controller.text);
+                onSearch?.call(controller.text);
               }
             },
           ),

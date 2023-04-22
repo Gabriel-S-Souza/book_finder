@@ -14,5 +14,8 @@
   "buyBook": "Buy book",
   "free": "Free",
   "priceNoAvailable": "Price no available",
-  "detailsNotFound": "No details found"
+  "detailsNotFound": "No details found",
+  "light": "Light",
+  "dark": "Dark",
+  "theme": "Theme"
 }

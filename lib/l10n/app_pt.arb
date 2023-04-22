@@ -14,5 +14,8 @@
   "buyBook": "Comprar livro",
   "free": "Grátis",
   "priceNoAvailable": "Preço não disponível",
-  "detailsNotFound": "Detalhes não encontrados"
+  "detailsNotFound": "Detalhes não encontrados",
+  "light": "Claro",
+  "dark": "Escuro",
+  "theme": "Tema"
 }

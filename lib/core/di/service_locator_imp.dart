@@ -1,5 +1,5 @@
 import 'package:book_finder/core/http/dio_config.dart';
-import 'package:book_finder/locale_service.dart';
+import 'package:book_finder/app_config.dart';
 import 'package:book_finder/modules/details/domain/usecases/get_details_use_case.dart';
 import 'package:book_finder/modules/details/infra/datasources/book_details_datasource.dart';
 import 'package:book_finder/modules/details/presenter/controllers/book_details_controller.dart';
@@ -32,20 +32,24 @@ class ServiceLocatorImp implements ServiceLocator {
   final _getIt = GetIt.instance;
 
   @override
-  void setupLocator() async {
-    // locale
-    _getIt.registerSingleton<LocaleService>(LocaleService());
+  Future<void> setupLocator() async {
+    final localStorage = LocalStorageImp();
+    await localStorage.init();
+
+    // storage
+    _getIt.registerSingleton<LocalStorage>(localStorage);
+
+    // config
+    _getIt.registerSingleton<AppConfig>((AppConfig(localStorage: _getIt())));
 
     // http
     _getIt.registerFactory<HttpClient>(() => HttpClient(dioApp));
 
     // datasources
-    _getIt.registerSingleton<LocalStorage>(LocalStorageImp());
-
     _getIt.registerFactory<BooksDatasource>(() => BooksDatasourceImp(
           httpClient: _getIt(),
           localStorage: _getIt(),
-          localeService: _getIt(),
+          appConfig: _getIt(),
         ));
 
     _getIt.registerFactory<BookDetailsDatasource>(() => BookDetailsDatasourceImp(

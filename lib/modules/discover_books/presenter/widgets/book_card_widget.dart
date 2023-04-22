@@ -94,31 +94,16 @@ class BookCardWidget extends StatelessWidget {
               Positioned(
                 top: -2,
                 right: -2,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    gradient: Theme.of(context).brightness == Brightness.dark
-                        ? LinearGradient(
-                            colors: [
-                              Theme.of(context).colorScheme.onSecondary.withOpacity(0.02),
-                              Theme.of(context).colorScheme.onSecondary.withOpacity(0.6),
-                            ],
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                          )
-                        : null,
-                  ),
-                  child: SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: IconButton(
-                      splashRadius: 20,
-                      icon: Icon(book.isfavorite ? Icons.favorite : Icons.favorite_border,
-                          color: Theme.of(context).colorScheme.brightness == Brightness.dark
-                              ? Theme.of(context).colorScheme.onSurface
-                              : Theme.of(context).colorScheme.surfaceTint.withAlpha(180)),
-                      onPressed: () => togglefavorite(book),
-                    ),
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: IconButton(
+                    splashRadius: 20,
+                    icon: Icon(book.isfavorite ? Icons.favorite : Icons.favorite_border,
+                        color: Theme.of(context).colorScheme.brightness == Brightness.dark
+                            ? Theme.of(context).colorScheme.onSurface
+                            : Theme.of(context).colorScheme.surfaceTint.withAlpha(180)),
+                    onPressed: () => togglefavorite(book),
                   ),
                 ),
               )

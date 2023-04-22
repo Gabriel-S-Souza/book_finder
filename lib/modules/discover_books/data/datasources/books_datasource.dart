@@ -4,7 +4,7 @@ import 'package:book_finder/core/commom/infra/datasources/local_storage.dart';
 import 'package:book_finder/core/utils/api_routes.dart';
 import 'package:book_finder/core/commom/domain/result.dart';
 import 'package:book_finder/core/utils/storage_keys.dart';
-import 'package:book_finder/locale_service.dart';
+import 'package:book_finder/app_config.dart';
 import 'package:book_finder/modules/discover_books/domain/entities/book_entity.dart';
 import 'package:book_finder/modules/discover_books/infra/datasources/books_datasource.dart';
 import '../models/book_model.dart';
@@ -14,15 +14,15 @@ import '../../../../core/http/http_client.dart';
 class BooksDatasourceImp implements BooksDatasource {
   final HttpClient _httpClient;
   final LocalStorage _localStorage;
-  final LocaleService _localeService;
+  final AppConfig _appConfig;
 
   BooksDatasourceImp({
     required HttpClient httpClient,
     required LocalStorage localStorage,
-    required LocaleService localeService,
+    required AppConfig appConfig,
   })  : _httpClient = httpClient,
         _localStorage = localStorage,
-        _localeService = localeService;
+        _appConfig = appConfig;
 
   @override
   Future<Result<List<BookModel>>> searchBooks(
@@ -35,7 +35,7 @@ class BooksDatasourceImp implements BooksDatasource {
     // log('pageNumber: $pageNumber');
     // log('startNumber: $startIndex');
 
-    final String locale = _localeService.locale.languageCode;
+    final String locale = _appConfig.locale.languageCode;
 
     try {
       final response = await _httpClient.get(
